@@ -1,0 +1,19 @@
+name: Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        c-version: [standard]
+        
+    steps:
+    -uses: actions/checkout@v1
+    
+    -name: Set up C ${{ matrix.c-version }}
+     uses: actions/setup-c@v1
+     with:
+        c-version: ${{ matrix.c-version }}
+        
+    
