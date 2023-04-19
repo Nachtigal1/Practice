@@ -33,3 +33,11 @@ jobs:
         run: npm run lint
       - name: Lint Action
         uses: wearerequired/lint-action@v2.3.0
+        
+  image:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
