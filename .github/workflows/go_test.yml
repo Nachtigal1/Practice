@@ -81,4 +81,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/lms:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/test_ci:latest
