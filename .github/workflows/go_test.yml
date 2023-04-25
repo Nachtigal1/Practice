@@ -79,6 +79,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./api
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.nachtigal1 }}/lms:latest
