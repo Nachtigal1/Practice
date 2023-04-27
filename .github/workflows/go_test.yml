@@ -82,3 +82,47 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/test_ci:latest
+          
+  image:
+    name: Build Docker container iamge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Publish to Github Packages
+        uses: docker/build-push-action@v4
+        with:
+         username: ${{ github.actor }}
+         password: ${{ secrets.GITHUB_TOKEN }}
+         registry: docker.pkg.github.com
+         repository: ${{ github.repository }}/next
+         tags: latest, ${{ github.run_number }}
+      - name: Publish to  Docker Hub
+        uses: docker/build-push-action@v4
+        with:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_TOKEN }}
+         repository: lms/next 
+     
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          driver-opts: network=host
+      -
+        name: Build and push to local registry
+        uses: docker/build-push-action@v4
+        with:
+         registry: ghcr.io
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_TOKEN }}
+         repository: nachtigal1/lms
+         tags: latest
